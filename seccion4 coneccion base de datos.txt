@@ -1,0 +1,18 @@
+se recomienda usar  el modulo o paquete de flask_sqlachemy  es mejor 
+
+
+sintaxis para conectar con la base de datos:
+
+en app.py:
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'msql://root:mypassword@localhost/contactsdb' # despues se almacenara en variables de entorno
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+SQLALCHEMY(app)
+
+
+
+
+##############
+
+con el modulo MSQLCLIENT

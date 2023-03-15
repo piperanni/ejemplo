@@ -1,0 +1,73 @@
+SECCION 1:
+Estructura de flask
+
+
+app = Flask(__name__) #  se crea un objeto app y se le pasa el parametro __name__(varaible que almacena el nombre de un modulo osea cada archivo tiene un __name__
+
+@app.route('/') # decorador para asignar una ruta 
+def home():
+return 'hello world'
+
+
+if __name__ == "__main__": # si el archivo se ejecuta desde el modulo y no desde una importacion entonces ejecuta la app
+app.run(debug= True) # para activar el debug
+
+-----------
+respecto a la mantencion del codigo, conviene crear una carpeta con las rutas que contendra la app y que el usuario visitará
+
+carpetas routes para las rutas de app
+templates para las plantillas html
+models para modelar las clases y crear funciones y metodos
+
+utils para los archivos de conexion a la  base de datos tambien se puede poner otro nombre son solo para ordenar y tener referencias
+como sugerencia se crea un archivo index.py que arrancara la aplicacion
+mientras que app.py contendra las configuraciones rutas etc.
+
+seccion2 : ENRUTADORES Y BLUEPRINT:
+
+se utliza los blueprint para ordenar y gestionar las distintas rutas para que el codigo sea mas legible y mas ordenado,
+
+por ejemplo en la carpeta routes se crea un archivo transportes.py 
+
+
+
+aqui se menciona un concepto importante llamado dependencia circular que es cuando dos modulos o archivos necesitan importar sus funciones o metodos de cada archivo osea una importa de la otra.
+
+esto se soluciona con blueprint y se hace importando una clase llamada Blueprint	que crea secciones dentro de la aplicacion, volviendo al archivo transporte.py se tiene asi:
+
+dentro del archivo
+
+from flask import Blueprint 
+transportes = Blueprint('transportes',__name__) # crea la ruta con blueprint
+
+@transporte.route('/') #ahora gracias a blueprint se puede cambiar el decorador en vez de app ahora dice transporte puesto que lo creamos con blueprint
+def home():
+return 'hello world'
+
+@transporte.route('/lista-transportes') # decorador para asignar una ruta 
+def listar_transportes():
+return 'Lista transportes'
+
+@transporte.route('/edita_transporte') # decorador para asignar una ruta 
+def editar_transportes():
+return 'Lista transportes'
+
+
+ahora para la importacion de las rutas hacia la ruta principal que es app es necesario
+agregar en el archivo
+
+main.py o llamado app.py
+
+@app.route('/') # decorador para asignar una ruta 
+def home():
+return 'hello world'
+
+
+app.register_blueprint(transportes) #importamos mediante blueprint las rutas guardadas en la carpeta routes
+
+
+if __name__ == "__main__": # si el archivo se ejecuta desde el modulo y no desde una importacion entonces ejecuta la app
+app.run(debug= True) # para activar el debug
+
+
+
